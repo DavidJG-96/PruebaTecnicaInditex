@@ -1,7 +1,7 @@
-package com.PruebaDavidJimeno.PruebaTecnica.controller;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.controller;
 
-import com.PruebaDavidJimeno.PruebaTecnica.dto.PricesDto;
-import com.PruebaDavidJimeno.PruebaTecnica.service.serviceimpl.PricesServiceImpl;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.service.serviceimpl.PricesServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

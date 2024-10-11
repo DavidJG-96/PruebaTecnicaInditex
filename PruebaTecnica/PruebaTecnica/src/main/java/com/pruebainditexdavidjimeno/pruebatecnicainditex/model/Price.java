@@ -1,4 +1,4 @@
-package com.PruebaDavidJimeno.PruebaTecnica.model;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private Integer Id;
+    private Integer id;
 
     @Column(name = "PRODUCT_ID")
     private Integer productId;

@@ -1,4 +1,4 @@
-package com.PruebaDavidJimeno.PruebaTecnica;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

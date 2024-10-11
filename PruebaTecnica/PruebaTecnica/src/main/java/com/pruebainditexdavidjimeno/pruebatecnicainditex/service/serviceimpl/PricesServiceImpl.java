@@ -1,9 +1,9 @@
-package com.PruebaDavidJimeno.PruebaTecnica.service.serviceimpl;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.service.serviceimpl;
 
-import com.PruebaDavidJimeno.PruebaTecnica.dto.PricesDto;
-import com.PruebaDavidJimeno.PruebaTecnica.model.Price;
-import com.PruebaDavidJimeno.PruebaTecnica.repository.PriceRepository;
-import com.PruebaDavidJimeno.PruebaTecnica.service.PricesService;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.model.Price;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.repository.PriceRepository;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.service.PricesService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

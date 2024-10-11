@@ -1,4 +1,4 @@
-package com.PruebaDavidJimeno.PruebaTecnica.PricesTest;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.PricesTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.PruebaDavidJimeno.PruebaTecnica.controller.ShopController;
-import com.PruebaDavidJimeno.PruebaTecnica.dto.PricesDto;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.controller.ShopController;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
