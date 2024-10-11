@@ -30,7 +30,6 @@ class PricesTest {
         LocalDateTime applicationDate = parseDate("2020-06-14T10:00:00");
         ResponseEntity<PricesDto> response = shopController.getPrices(applicationDate, 35455, 1);
 
-
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         PricesDto price = response.getBody();
