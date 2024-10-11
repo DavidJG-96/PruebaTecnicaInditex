@@ -1,4 +1,4 @@
-package com.PruebaDavidJimeno.PruebaTecnica.dto;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.dto;
 
 import lombok.Builder;
 import lombok.Getter;

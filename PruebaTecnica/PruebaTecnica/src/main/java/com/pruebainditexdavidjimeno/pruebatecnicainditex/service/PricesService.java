@@ -1,6 +1,6 @@
-package com.PruebaDavidJimeno.PruebaTecnica.service;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.service;
 
-import com.PruebaDavidJimeno.PruebaTecnica.dto.PricesDto;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

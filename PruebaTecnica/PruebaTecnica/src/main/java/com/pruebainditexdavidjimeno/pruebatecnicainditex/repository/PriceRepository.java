@@ -1,6 +1,6 @@
-package com.PruebaDavidJimeno.PruebaTecnica.repository;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.repository;
 
-import com.PruebaDavidJimeno.PruebaTecnica.model.Price;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.model.Price;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
