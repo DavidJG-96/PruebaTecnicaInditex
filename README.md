@@ -20,3 +20,8 @@ In this project, the singleton pattern is used in the PricesServiceImpl class to
 To run the application, it is necessary to clone the repository to a local machine. The database is already included in the project, as an H2 in-memory database configured in a data.sql file has been used, and Spring is configured by default to load it during initialisation. 
 
 There are five tests in the test section, four of which check that the data is returned correctly if the data entered for a product and a brand is correct and returns the expected data. A final test has been added to check the operation of the application when the input data entered does not exist in the database.
+
+## Improvements
+
++ A new column has been added to the database table to identify each record with an auto-generated value.
++ A test has been added to check the answer if the data entered does not exist in the database.
