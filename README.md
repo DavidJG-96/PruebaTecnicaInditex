@@ -4,6 +4,7 @@ This SpringBoot application provides a REST endpoint to retrieve product prices 
 ## Technologies
 The technologies used in this project are:
 
++ Java (version 21)
 + Spring Boot (version 3.3.4)
 + Spring Boot Starter Web
 + Spring Boot Starter Data JPA
