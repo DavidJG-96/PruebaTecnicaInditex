@@ -2,12 +2,10 @@ package com.pruebainditexdavidjimeno.pruebatecnicainditex.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Builder
-@Setter
 @Getter
 public class PricesDto {
     private final Integer productId;
@@ -16,5 +14,4 @@ public class PricesDto {
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
     private final Double price;
-    private final Integer priority;
 }

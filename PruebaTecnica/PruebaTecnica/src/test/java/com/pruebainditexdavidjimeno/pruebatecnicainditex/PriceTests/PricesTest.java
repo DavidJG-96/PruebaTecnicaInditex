@@ -1,4 +1,4 @@
-package com.pruebainditexdavidjimeno.pruebatecnicainditex.PricesTest;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.PriceTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -98,5 +98,13 @@ class PricesTest {
         assertEquals(4, price.getPriceList());
         assertEquals(35455, price.getProductId());
         assertEquals(1, price.getBrandId());
+    }
+
+    @Test
+    void whenRequestingPricIsNotFound_thenReturns404NotFound() {
+        LocalDateTime applicationDate = parseDate("2045-06-16T21:00:00");
+        ResponseEntity<PricesDto> response = shopController.getPrices(applicationDate, 89321, 2);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

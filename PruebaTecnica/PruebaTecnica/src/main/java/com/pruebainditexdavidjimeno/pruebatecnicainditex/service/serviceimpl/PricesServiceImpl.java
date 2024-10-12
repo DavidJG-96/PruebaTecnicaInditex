@@ -23,7 +23,7 @@ public class PricesServiceImpl implements PricesService {
     public PricesDto getPrice(LocalDateTime date, Integer productId, Integer brandId) {
         log.info("[PricesService] Searching prices with the given data: date {}, productId {}, brandId {}.",
                 date, productId, brandId);
-        final List<Price> productPrice = priceRepository.findByStartDateAndbrandIdAndproductId(date, brandId, productId);
+        final List<Price> productPrice = priceRepository.findByBrandIdAndProductIdAndDateRange(date, brandId, productId);
 
         if (productPrice.isEmpty()) {
             log.warn("[PricesService] No price has been found with the data provided: date {}, productId {}, " +
@@ -35,12 +35,11 @@ public class PricesServiceImpl implements PricesService {
                 .max(Comparator.comparingInt(Price::getPriority))
                 .map(price -> PricesDto.builder()
                         .productId(price.getProductId())
-                        .price(price.getProductPrice())
+                        .brandId(price.getBrandId())
                         .priceList(price.getPriceList())
                         .startDate(price.getStartDate())
                         .endDate(price.getEndDate())
-                        .brandId(price.getBrandId())
-                        .priority(price.getPriority())
+                        .price(price.getProductPrice())
                         .build())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Error searching price, no price found for the specified date and criteria."));

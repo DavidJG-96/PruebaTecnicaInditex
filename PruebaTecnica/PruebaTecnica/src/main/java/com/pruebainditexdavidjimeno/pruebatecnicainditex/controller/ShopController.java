@@ -32,6 +32,11 @@ public class ShopController {
 
             PricesDto response = pricesServiceImpl.getPrice(applicationDate, productId, brandId);
 
+            log.info("[ShopController] Response received: productId: {}, brandId: {}, priceList: {}, startDate: {}, " +
+                            "endDate: {}, price: {}.",
+                    response.getProductId(), response.getBrandId(), response.getPriceList(), response.getStartDate(),
+                    response.getEndDate(), response.getPrice());
+
             return ResponseEntity.ok(response);
         } catch (EntityNotFoundException exception) {
             return ResponseEntity.notFound().build();
