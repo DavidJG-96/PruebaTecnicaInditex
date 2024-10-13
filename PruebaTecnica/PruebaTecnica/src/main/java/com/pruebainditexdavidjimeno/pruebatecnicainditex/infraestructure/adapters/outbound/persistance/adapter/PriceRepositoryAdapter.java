@@ -19,10 +19,17 @@ public class PriceRepositoryAdapter implements PriceRepositoryPort {
     public List<Price> findByBrandIdAndProductIdAndDateRange(LocalDateTime applicationDate, Integer brandId, Integer productId) {
         List<PriceEntity> priceEntities = priceRepository.findByBrandIdAndProductIdAndDateRange(applicationDate, brandId, productId);
         return priceEntities.stream()
-                .map(entity -> new Price(entity.getId(), entity.getProductId(), entity.getBrandId(),
-                        entity.getPriceList(), entity.getStartDate(),
-                        entity.getEndDate(), entity.getProductPrice(),
-                        entity.getCurrency(), entity.getPriority()))
+                .map(entity -> Price.builder()
+                        .id(entity.getId())
+                        .productId(entity.getProductId())
+                        .brandId(entity.getBrandId())
+                        .priceList(entity.getPriceList())
+                        .startDate(entity.getStartDate())
+                        .endDate(entity.getEndDate())
+                        .productPrice(entity.getProductPrice())
+                        .currency(entity.getCurrency())
+                        .priority(entity.getPriority())
+                        .build())
                 .toList();
     }
 }
