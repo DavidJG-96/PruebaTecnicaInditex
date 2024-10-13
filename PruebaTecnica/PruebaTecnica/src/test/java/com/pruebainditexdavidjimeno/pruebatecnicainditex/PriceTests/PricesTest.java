@@ -1,7 +1,7 @@
 package com.pruebainditexdavidjimeno.pruebatecnicainditex.PriceTests;
 
 import java.time.LocalDateTime;
-import com.pruebainditexdavidjimeno.pruebatecnicainditex.controller.ShopController;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.infraestructure.adapters.inbound.rest.ShopController;
 import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
-package com.pruebainditexdavidjimeno.pruebatecnicainditex.service.serviceimpl;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.application.service;
 
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.domain.model.Price;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.domain.port.output.PriceRepositoryPort;
 import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
-import com.pruebainditexdavidjimeno.pruebatecnicainditex.model.Price;
-import com.pruebainditexdavidjimeno.pruebatecnicainditex.repository.PriceRepository;
-import com.pruebainditexdavidjimeno.pruebatecnicainditex.service.PricesService;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.domain.port.input.PricesService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +17,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PricesServiceImpl implements PricesService {
-    private final PriceRepository priceRepository;
+    private final PriceRepositoryPort priceRepositoryPort;
 
     @Override
     public PricesDto getPrice(LocalDateTime date, Integer productId, Integer brandId) {
         log.info("[PricesService] Searching prices with the given data: date {}, productId {}, brandId {}.",
                 date, productId, brandId);
-        final List<Price> productPrice = priceRepository.findByBrandIdAndProductIdAndDateRange(date, brandId, productId);
+        final List<Price> productPrice = priceRepositoryPort.findByBrandIdAndProductIdAndDateRange(date, brandId, productId);
 
         if (productPrice.isEmpty()) {
             log.warn("[PricesService] No price has been found with the data provided: date {}, productId {}, " +

@@ -1,4 +1,4 @@
-package com.pruebainditexdavidjimeno.pruebatecnicainditex.model;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.infraestructure.adapters.outbound.persistance.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,14 +8,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@EntityScan
 @NoArgsConstructor
 @Table(name = "PRICES")
-public class Price {
+public class PriceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
