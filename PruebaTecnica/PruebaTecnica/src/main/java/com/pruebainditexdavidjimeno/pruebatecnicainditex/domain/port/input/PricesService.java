@@ -1,4 +1,4 @@
-package com.pruebainditexdavidjimeno.pruebatecnicainditex.service;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.domain.port.input;
 
 import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
 
