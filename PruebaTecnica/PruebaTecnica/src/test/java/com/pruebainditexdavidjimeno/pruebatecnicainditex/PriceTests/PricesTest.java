@@ -1,8 +1,10 @@
 package com.pruebainditexdavidjimeno.pruebatecnicainditex.PriceTests;
 
 import java.time.LocalDateTime;
+
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.infraestructure.adapters.exception.InvalidDateException;
 import com.pruebainditexdavidjimeno.pruebatecnicainditex.infraestructure.adapters.inbound.rest.ShopController;
-import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
+import com.pruebainditexdavidjimeno.pruebatecnicainditex.infraestructure.adapters.inbound.rest.dto.PricesDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -116,9 +118,17 @@ class PricesTest {
 
     @Test
     void whenRequestedPriceIsNotFound_thenReturns404NotFound() {
-        LocalDateTime applicationDate = LocalDateTime.parse("2045-06-16T21:00:00");
+        LocalDateTime applicationDate = LocalDateTime.parse("2000-06-16T21:00:00");
         ResponseEntity<PricesDto> response = shopController.getPrices(applicationDate, 89321, 2);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void whenRequestedPriceIsNotValid_thenReturnsBadRequest() {
+        LocalDateTime applicationDate = LocalDateTime.parse("2045-06-16T21:00:00");
+        ResponseEntity<PricesDto> response = shopController.getPrices(applicationDate, 89321, 2);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }

@@ -1,4 +1,4 @@
-package com.pruebainditexdavidjimeno.pruebatecnicainditex.dto;
+package com.pruebainditexdavidjimeno.pruebatecnicainditex.infraestructure.adapters.inbound.rest.dto;
 
 import lombok.Builder;
 import lombok.Getter;

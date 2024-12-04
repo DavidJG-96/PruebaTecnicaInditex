@@ -2,7 +2,6 @@ package com.pruebainditexdavidjimeno.pruebatecnicainditex.application.service;
 
 import com.pruebainditexdavidjimeno.pruebatecnicainditex.domain.model.Price;
 import com.pruebainditexdavidjimeno.pruebatecnicainditex.domain.port.output.PriceRepositoryPort;
-import com.pruebainditexdavidjimeno.pruebatecnicainditex.dto.PricesDto;
 import com.pruebainditexdavidjimeno.pruebatecnicainditex.domain.port.input.PricesService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class PricesServiceImpl implements PricesService {
     private final PriceRepositoryPort priceRepositoryPort;
 
     @Override
-    public PricesDto getPrice(LocalDateTime date, Integer productId, Integer brandId) {
+    public Price getPrice(LocalDateTime date, Integer productId, Integer brandId) {
         log.info("[PricesService] Searching prices with the given data: date {}, productId {}, brandId {}.",
                 date, productId, brandId);
         final List<Price> productPrice = priceRepositoryPort.findByBrandIdAndProductIdAndDateRange(date, brandId, productId);
@@ -33,14 +32,6 @@ public class PricesServiceImpl implements PricesService {
 
         return productPrice.stream()
                 .max(Comparator.comparingInt(Price::getPriority))
-                .map(price -> PricesDto.builder()
-                        .productId(price.getProductId())
-                        .brandId(price.getBrandId())
-                        .priceList(price.getPriceList())
-                        .startDate(price.getStartDate())
-                        .endDate(price.getEndDate())
-                        .price(price.getProductPrice())
-                        .build())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Error searching price, no price found for the specified date and criteria."));
     }
