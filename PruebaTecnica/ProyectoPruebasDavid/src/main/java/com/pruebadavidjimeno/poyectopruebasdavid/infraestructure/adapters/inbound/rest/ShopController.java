@@ -27,7 +27,7 @@ public class ShopController {
 
     @GetMapping("/product-price")
     public Mono<PricesDto> getPrices(
-            @RequestParam("applicationDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime applicationDate,
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime applicationDate,
             @RequestParam("productId") Integer productId,
             @RequestParam("brandId") Integer brandId
     ) {

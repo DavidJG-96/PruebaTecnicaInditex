@@ -8,12 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureWebTestClient
 class PricesTest {
     @Autowired
@@ -30,7 +32,7 @@ class PricesTest {
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-12-31T23:59:59");
 
         PricesDto price = webTestClient.get()
-                .uri("/prices?date=" + applicationDate + "&productId=35455&brandId=1")
+                .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(PricesDto.class)
@@ -53,7 +55,7 @@ class PricesTest {
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-06-14T18:30");
 
         PricesDto price = webTestClient.get()
-                .uri("/prices?date=" + applicationDate + "&productId=35455&brandId=1")
+                .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(PricesDto.class)
@@ -76,7 +78,7 @@ class PricesTest {
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-12-31T23:59:59");
 
         PricesDto price = webTestClient.get()
-                .uri("/prices?date=" + applicationDate + "&productId=35455&brandId=1")
+                .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(PricesDto.class)
@@ -100,7 +102,7 @@ class PricesTest {
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-06-15T11:00");
 
         PricesDto price = webTestClient.get()
-                .uri("/prices?date=" + applicationDate + "&productId=35455&brandId=1")
+                .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(PricesDto.class)
@@ -124,7 +126,7 @@ class PricesTest {
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-12-31T23:59:59");
 
         PricesDto price = webTestClient.get()
-                .uri("/prices?date=" + applicationDate + "&productId=35455&brandId=1")
+                .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(PricesDto.class)
@@ -146,7 +148,7 @@ class PricesTest {
         LocalDateTime applicationDate = LocalDateTime.parse("2000-06-16T21:00:00");
 
         webTestClient.get()
-                .uri("/prices?date=" + applicationDate + "&productId=89321&brandId=2")
+                .uri("/prices/product-price?date=" + applicationDate + "&productId=89321&brandId=2")
                 .exchange()
                 .expectStatus().isNotFound();
     }
@@ -157,7 +159,7 @@ class PricesTest {
         LocalDateTime applicationDate = LocalDateTime.parse("2045-06-16T21:00:00");
 
         webTestClient.get()
-                .uri("/prices?date=" + applicationDate + "&productId=89321&brandId=2")
+                .uri("/prices/product-price?date=" + applicationDate + "&productId=89321&brandId=2")
                 .exchange()
                 .expectStatus().isBadRequest();
     }
