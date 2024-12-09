@@ -75,13 +75,13 @@ class PricesTest {
         LocalDateTime expectedStartDate = LocalDateTime.parse("2020-06-14T00:00");
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-12-31T23:59:59");
 
-        PricesDto price = webTestClient.get()  // Usamos WebTestClient para hacer la solicitud GET
+        PricesDto price = webTestClient.get()
                 .uri("/prices?date=" + applicationDate + "&productId=35455&brandId=1")
-                .exchange()  // Realiza la solicitud y devuelve ClientResponse
-                .expectStatus().isOk()  // Verifica que la respuesta tenga un código de estado 200
-                .expectBody(PricesDto.class)  // Espera un cuerpo de respuesta de tipo PricesDto
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PricesDto.class)
                 .returnResult()
-                .getResponseBody();  // Obtiene el cuerpo de la respuesta
+                .getResponseBody();
 
         assertNotNull(price);
         assertEquals(35.50, price.getPrice());
@@ -148,7 +148,7 @@ class PricesTest {
         webTestClient.get()
                 .uri("/prices?date=" + applicationDate + "&productId=89321&brandId=2")
                 .exchange()
-                .expectStatus().isNotFound();  // Verifica que la respuesta tenga un código 404 Not Found
+                .expectStatus().isNotFound();
     }
 
 
@@ -159,6 +159,6 @@ class PricesTest {
         webTestClient.get()
                 .uri("/prices?date=" + applicationDate + "&productId=89321&brandId=2")
                 .exchange()
-                .expectStatus().isBadRequest();  // Verifica que la respuesta tenga un código 400 Bad Request
+                .expectStatus().isBadRequest();
     }
 }
