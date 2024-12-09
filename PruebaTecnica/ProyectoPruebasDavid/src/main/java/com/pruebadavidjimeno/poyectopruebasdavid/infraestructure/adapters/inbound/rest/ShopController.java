@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -31,7 +32,7 @@ public class ShopController {
             @RequestParam("brandId") Integer brandId
     ) {
 
-        if (applicationDate == null || applicationDate.isAfter(LocalDateTime.now())) {
+        if (Objects.isNull(applicationDate) || applicationDate.isAfter(LocalDateTime.now())) {
             return Mono.error(new InvalidDateException(String.format("Invalid date format: %s", applicationDate)));
         }
 
