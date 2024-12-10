@@ -6,12 +6,15 @@ import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inboun
 import com.pruebadavidjimeno.poyectopruebasdavid.application.service.PricesServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
+import javax.management.InstanceNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -48,9 +51,7 @@ public class ShopController {
                         .endDate(price.getEndDate())
                         .price(price.getProductPrice())
                         .build())
-                .onErrorMap(ClassNotFoundException.class, ex -> {
-                    log.error("[ShopController] Entity not found: {}", ex.getMessage());
-                    return new RuntimeException("Price not found for given parameters", ex);
-                });
+                .onErrorResume(InstanceNotFoundException.class, ex ->
+                        Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage())));
     }
 }
