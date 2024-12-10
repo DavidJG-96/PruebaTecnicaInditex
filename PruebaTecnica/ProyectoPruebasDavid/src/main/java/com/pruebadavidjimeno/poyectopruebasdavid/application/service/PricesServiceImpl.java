@@ -3,6 +3,7 @@ package com.pruebadavidjimeno.poyectopruebasdavid.application.service;
 import com.pruebadavidjimeno.poyectopruebasdavid.domain.model.Price;
 import com.pruebadavidjimeno.poyectopruebasdavid.domain.port.output.PriceRepositoryPort;
 import com.pruebadavidjimeno.poyectopruebasdavid.domain.port.input.PricesService;
+import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.exception.PriceNotValidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
-import javax.management.InstanceNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
@@ -32,5 +32,19 @@ public class PricesServiceImpl implements PricesService {
                 .doOnError(e -> log.warn("[PricesService] Error finding price: {}", e.getMessage()))
                 .doOnSuccess(price -> log.info("[PricesService] Price found: {}", price));
 
+    }
+
+    //TODO REVISIT ADD PRICE TO CHANGE HOW THE VALIDATION WORKS
+    @Override
+    public Mono<Void> addPrice(Price price) {
+        if (price.getProductId() == null || price.getProductId() <= 0 ||
+                price.getBrandId() == null || price.getBrandId() <= 0 ||
+                price.getStartDate() == null || price.getEndDate() == null ||
+                price.getProductPrice() == null || price.getProductPrice() <= 0 ||
+                price.getCurrency() == null || price.getCurrency().isEmpty()) {
+
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Invalid price data"));
+        }
+        return priceRepositoryPort.addPrice(price);
     }
 }

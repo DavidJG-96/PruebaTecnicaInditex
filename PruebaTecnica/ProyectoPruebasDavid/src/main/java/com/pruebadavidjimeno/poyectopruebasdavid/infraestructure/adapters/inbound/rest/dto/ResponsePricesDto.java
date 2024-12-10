@@ -7,11 +7,13 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-public class PricesDto {
+public class ResponsePricesDto {
     private final Integer productId;
     private final Integer brandId;
     private final Integer priceList;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
+    private final Integer priority;
     private final Double price;
+    private final String curr;
 }

@@ -6,6 +6,7 @@ import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.outbou
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 
@@ -29,4 +30,34 @@ public class PriceRepositoryAdapter implements PriceRepositoryPort {
                         .priority(entity.getPriority())
                         .build());
     }
+
+    @Override
+    public Mono<Void> addPrice(Price price) {
+        return priceRepository.insertPrice(
+                price.getBrandId(),
+                price.getStartDate(),
+                price.getEndDate(),
+                price.getPriceList(),
+                price.getProductId(),
+                price.getPriority(),
+                price.getProductPrice(),
+                price.getCurrency()
+        );
+    }
+    //SAVE OPTION IF NEEDED
+//    @Override
+//    public Mono<Void> addPrice(Price price) {
+//        PriceEntity entity = PriceEntity.builder()
+//                .brandId(price.getBrandId())
+//                .startDate(price.getStartDate())
+//                .endDate(price.getEndDate())
+//                .priceList(price.getPriceList())
+//                .productId(price.getProductId())
+//                .priority(price.getPriority())
+//                .productPrice(price.getProductPrice())
+//                .currency(price.getCurrency())
+//                .build();
+//
+//        return priceRepository.save(entity).then();
+//    }
 }

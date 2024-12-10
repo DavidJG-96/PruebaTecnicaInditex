@@ -3,7 +3,8 @@ package com.pruebadavidjimeno.poyectopruebasdavid.PriceTests;
 import java.time.LocalDateTime;
 
 import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.ShopController;
-import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.PricesDto;
+import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.RequestPricesDto;
+import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.ResponsePricesDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -31,11 +32,11 @@ class PricesTest {
         LocalDateTime expectedStartDate = LocalDateTime.parse("2020-06-14T00:00");
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-12-31T23:59:59");
 
-        PricesDto price = webTestClient.get()
+        ResponsePricesDto price = webTestClient.get()
                 .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(PricesDto.class)
+                .expectBody(ResponsePricesDto.class)
                 .returnResult()
                 .getResponseBody();
 
@@ -54,11 +55,11 @@ class PricesTest {
         LocalDateTime expectedStartDate = LocalDateTime.parse("2020-06-14T15:00");
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-06-14T18:30");
 
-        PricesDto price = webTestClient.get()
+        ResponsePricesDto price = webTestClient.get()
                 .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(PricesDto.class)
+                .expectBody(ResponsePricesDto.class)
                 .returnResult()
                 .getResponseBody();
 
@@ -77,11 +78,11 @@ class PricesTest {
         LocalDateTime expectedStartDate = LocalDateTime.parse("2020-06-14T00:00");
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-12-31T23:59:59");
 
-        PricesDto price = webTestClient.get()
+        ResponsePricesDto price = webTestClient.get()
                 .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(PricesDto.class)
+                .expectBody(ResponsePricesDto.class)
                 .returnResult()
                 .getResponseBody();
 
@@ -101,11 +102,11 @@ class PricesTest {
         LocalDateTime expectedStartDate = LocalDateTime.parse("2020-06-15T00:00");
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-06-15T11:00");
 
-        PricesDto price = webTestClient.get()
+        ResponsePricesDto price = webTestClient.get()
                 .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(PricesDto.class)
+                .expectBody(ResponsePricesDto.class)
                 .returnResult()
                 .getResponseBody();
 
@@ -125,11 +126,11 @@ class PricesTest {
         LocalDateTime expectedStartDate = LocalDateTime.parse("2020-06-15T16:00");
         LocalDateTime expectedEndDate = LocalDateTime.parse("2020-12-31T23:59:59");
 
-        PricesDto price = webTestClient.get()
+        ResponsePricesDto price = webTestClient.get()
                 .uri("/prices/product-price?date=" + applicationDate + "&productId=35455&brandId=1")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(PricesDto.class)
+                .expectBody(ResponsePricesDto.class)
                 .returnResult()
                 .getResponseBody();
 
@@ -163,4 +164,43 @@ class PricesTest {
                 .exchange()
                 .expectStatus().isBadRequest();
     }
+
+    @Test
+    void whenAddingValidPrice_thenReturnsCreatedStatus() {
+        RequestPricesDto requestDto = new RequestPricesDto();
+        requestDto.setBrandId(1);
+        requestDto.setStartDate(LocalDateTime.parse("2024-01-01T00:00:00"));
+        requestDto.setEndDate(LocalDateTime.parse("2024-12-31T23:59:59"));
+        requestDto.setPriceList(5);
+        requestDto.setProductId(12345);
+        requestDto.setPriority(0);
+        requestDto.setPrice(50.99);
+        requestDto.setCurr("EUR");
+
+        webTestClient.post()
+                .uri("/prices/product-price")
+                .bodyValue(requestDto)
+                .exchange()
+                .expectStatus().isCreated();
+    }
+
+    @Test
+    void whenAddingInvalidPrice_thenReturnsBadRequestStatus() {
+        RequestPricesDto requestDto = new RequestPricesDto();
+        requestDto.setBrandId(null);
+        requestDto.setStartDate(LocalDateTime.parse("2024-01-01T00:00:00"));
+        requestDto.setEndDate(LocalDateTime.parse("2024-12-31T23:59:59"));
+        requestDto.setPriceList(5);
+        requestDto.setProductId(null);
+        requestDto.setPriority(0);
+        requestDto.setPrice(50.99);
+        requestDto.setCurr("EUR");
+
+        webTestClient.post()
+                .uri("/prices/product-price")
+                .bodyValue(requestDto)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+
 }

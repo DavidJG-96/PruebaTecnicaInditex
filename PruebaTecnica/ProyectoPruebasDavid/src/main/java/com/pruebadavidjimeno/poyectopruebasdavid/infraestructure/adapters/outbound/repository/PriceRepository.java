@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,19 @@ public interface PriceRepository extends ReactiveCrudRepository<PriceEntity, Int
     Flux<PriceEntity> findByBrandIdAndProductIdAndDateRange(@Param("applicationDate") LocalDateTime applicationDate,
                                                             @Param("brandId") Integer brandId,
                                                             @Param("productId") Integer productId);
+
+
+    @Query("INSERT INTO PRICES (BRAND_ID, START_DATE, END_DATE, PRICE_LIST, PRODUCT_ID, PRIORITY, PRICE, CURR) " +
+            "VALUES (:brandId, :startDate, :endDate, :priceList, :productId, :priority, :price, :curr)")
+    Mono<Void> insertPrice(@Param("brandId") Integer brandId,
+                           @Param("startDate") LocalDateTime startDate,
+                           @Param("endDate") LocalDateTime endDate,
+                           @Param("priceList") Integer priceList,
+                           @Param("productId") Integer productId,
+                           @Param("priority") Integer priority,
+                           @Param("price") Double price,
+                           @Param("curr") String currency);
+
 }
 
 

@@ -1,16 +1,17 @@
 package com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest;
 
+import com.pruebadavidjimeno.poyectopruebasdavid.domain.model.Price;
 import com.pruebadavidjimeno.poyectopruebasdavid.domain.port.input.PricesService;
 import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.exception.InvalidDateException;
-import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.PricesDto;
+import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.exception.PriceNotValidException;
+import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.RequestPricesDto;
+import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.ResponsePricesDto;
 import com.pruebadavidjimeno.poyectopruebasdavid.application.service.PricesServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
@@ -29,7 +30,7 @@ public class ShopController {
     }
 
     @GetMapping("/product-price")
-    public Mono<PricesDto> getPrices(
+    public Mono<ResponsePricesDto> getPrices(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime applicationDate,
             @RequestParam("productId") Integer productId,
             @RequestParam("brandId") Integer brandId
@@ -43,7 +44,7 @@ public class ShopController {
                 applicationDate, productId, brandId);
 
         return pricesService.getPrice(applicationDate, productId, brandId)
-                .map(price -> PricesDto.builder()
+                .map(price -> ResponsePricesDto.builder()
                         .productId(price.getProductId())
                         .brandId(price.getBrandId())
                         .priceList(price.getPriceList())
@@ -53,5 +54,30 @@ public class ShopController {
                         .build())
                 .onErrorResume(InstanceNotFoundException.class, ex ->
                         Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage())));
+    }
+
+    //void since we don't need a response apart from the 201
+    @PostMapping("/product-price")
+    public Mono<ResponseEntity<Object>> addPrice(@RequestBody RequestPricesDto requestDto) {
+
+        Price priceToSave = Price.builder()
+                .brandId(requestDto.getBrandId())
+                .startDate(requestDto.getStartDate())
+                .endDate(requestDto.getEndDate())
+                .priceList(requestDto.getPriceList())
+                .productId(requestDto.getProductId())
+                .priority(requestDto.getPriority())
+                .productPrice(requestDto.getPrice())
+                .currency(requestDto.getCurr())
+                .build();
+
+        return pricesService.addPrice(priceToSave)
+                .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()))
+                .onErrorResume(e -> {
+                    if (e instanceof PriceNotValidException) {
+                        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+                    }
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                });
     }
 }
