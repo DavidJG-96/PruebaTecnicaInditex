@@ -1,4 +1,4 @@
-# Inditex Technical Test
+# Testing Repository
 ## Overview
 This SpringBoot application provides a REST endpoint to retrieve product prices based on input parameters such as application date, product ID, and brand ID. The response includes the product ID, brand ID, applicable price list, date range, and final price. An in-memory H2 database is initialized with sample data for quick testing.
 ## Technologies
