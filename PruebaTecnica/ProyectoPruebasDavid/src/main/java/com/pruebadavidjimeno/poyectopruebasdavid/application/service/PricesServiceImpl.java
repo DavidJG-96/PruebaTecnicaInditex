@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -24,27 +25,47 @@ public class PricesServiceImpl implements PricesService {
     public Mono<Price> getPrice(LocalDateTime date, Integer productId, Integer brandId) {
         log.info("[PricesService] Searching prices with the given data: date {}, productId {}, brandId {}.",
                 date, productId, brandId);
-        return priceRepositoryPort.findByBrandIdAndProductIdAndDateRange(date, brandId, productId) // Devuelve un Flux<Price>
+        return priceRepositoryPort.findByBrandIdAndProductIdAndDateRange(date, brandId, productId)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No price has been found with the data provided.")))
                 .reduce((price1, price2) ->
-                        Comparator.comparingInt(Price::getPriority).compare(price1, price2) > 0 ? price1 : price2)
+                        Comparator.comparingInt(Price::getPriority).compare(price1, price2) > 0
+                                ? price1
+                                : price2)
                 .doOnError(e -> log.warn("[PricesService] Error finding price: {}", e.getMessage()))
                 .doOnSuccess(price -> log.info("[PricesService] Price found: {}", price));
 
     }
 
-    //TODO REVISIT ADD PRICE TO CHANGE HOW THE VALIDATION WORKS
     @Override
     public Mono<Void> addPrice(Price price) {
-        if (price.getProductId() == null || price.getProductId() <= 0 ||
-                price.getBrandId() == null || price.getBrandId() <= 0 ||
-                price.getStartDate() == null || price.getEndDate() == null ||
-                price.getProductPrice() == null || price.getProductPrice() <= 0 ||
-                price.getCurrency() == null || price.getCurrency().isEmpty()) {
+        return validatePrice(price).flatMap(valid -> priceRepositoryPort
+                .addPrice(price))
+                .onErrorResume(e -> Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, e.getMessage())));
+    }
 
-            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Invalid price data"));
+    private Mono<Price> validatePrice(Price price) {
+        if (Objects.isNull(price)) {
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Price object cannot be null"));
         }
-        return priceRepositoryPort.addPrice(price);
+        if (Objects.isNull(price.getProductId()) || price.getProductId() <= 0) {
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Product ID is invalid"));
+        }
+        if (Objects.isNull(price.getBrandId()) || price.getBrandId() <= 0) {
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Brand ID is invalid"));
+        }
+        if (Objects.isNull(price.getStartDate())) {
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Start date cannot be null"));
+        }
+        if (Objects.isNull(price.getEndDate())) {
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "End date cannot be null"));
+        }
+        if (Objects.isNull(price.getProductPrice()) || price.getProductPrice() <= 0) {
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Product price is invalid"));
+        }
+        if (Objects.isNull(price.getCurrency()) || price.getCurrency().isEmpty()) {
+            return Mono.error(new PriceNotValidException(HttpStatus.BAD_REQUEST, "Currency cannot be empty"));
+        }
+        return Mono.just(price);
     }
 }

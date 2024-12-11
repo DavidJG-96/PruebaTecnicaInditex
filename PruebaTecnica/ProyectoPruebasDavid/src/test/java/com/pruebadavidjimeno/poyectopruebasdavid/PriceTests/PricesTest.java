@@ -2,7 +2,6 @@ package com.pruebadavidjimeno.poyectopruebasdavid.PriceTests;
 
 import java.time.LocalDateTime;
 
-import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.ShopController;
 import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.RequestPricesDto;
 import com.pruebadavidjimeno.poyectopruebasdavid.infraestructure.adapters.inbound.rest.dto.ResponsePricesDto;
 import org.junit.jupiter.api.Test;
@@ -21,9 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PricesTest {
     @Autowired
     private WebTestClient webTestClient;
-
-    @Autowired
-    private ShopController shopController;
 
 
     @Test

@@ -59,7 +59,7 @@ public class ShopController {
     //void since we don't need a response apart from the 201
     @PostMapping("/product-price")
     public Mono<ResponseEntity<Object>> addPrice(@RequestBody RequestPricesDto requestDto) {
-
+        //TODO REVISIT THE BUILD PART
         Price priceToSave = Price.builder()
                 .brandId(requestDto.getBrandId())
                 .startDate(requestDto.getStartDate())
